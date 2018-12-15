@@ -23,16 +23,32 @@ module Main();
 	input CLK, RST;	//rising edge
 
 	input reg [3:0] BCD_input;
-	// * --> 1011 --> 11
-	// # --> 1100 --> 12
+	// 0  to 9 BCDs are for numeric inputs digit by digit
+	// *  --> 1011 --> 11
+	// #  --> 1100 --> 12
+	// *# --> 1101 --> 13
 	
 	reg [1:0] present_state, next_state;
+	
+	reg [11:0] username_admin = 12'b000100100000; // 120
+	reg [15:0] password_admin = 16'b0001010000000000; // 1400
+	
+	reg [11:0] username_temp;
+	reg [15:0] password_temp;
 		
 	parameter [5:0] S0 = 0, // ready to work and if get * will go to S1
 						 S1 = 1, // got * and now is ready to get the first digit of the username
 						 S2 = 2, // ready to get the second digit of the username
 						 S3 = 3, // ready to get the third digit of the username
-						 S4 = 4; // got the username completely and now will check wheather it 
+						 S4 = 4, // got the username completely and now check whether we have it or no
+						 S5 = 5, // got the username completely and now detected as simple user and ready to get the first digit of the password of simple user
+						 S6 = 6, // ready to get the second digit of the password of simple user
+						 S7 = 7, // ready to get the third digit of the password of simple user
+						 S8 = 8, // ready to get the fourth digit of the password of simple user
+						 S9 = 9, // got the username completely and now detected as admin and ready to get the first digit of the password of admin
+						 S10 = 10, // ready to get the second digit of the password of admin
+						 S11 = 11, // ready to get the third digit of the password of admin
+						 S12 = 12; // ready to get the fourth digit of the password of admin
 
 
 	always @ (posedge CLK or posedge RST)
@@ -48,13 +64,57 @@ module Main();
 					next_state <= S1;
 			S1:
 				if (BCD_input < 4'b1010)
+				begin
 					next_state <= S2;
+					username_temp[11:8] <= BCD_input;
+				end
 			S2: 
 				if (BCD_input < 4'b1010)
+				begin
 					next_state <= S3;
+					username_temp[7:4] <= BCD_input;
+				end
 			S3: 
 				if (BCD_input < 4'b1010)
-					next_state <= S4;	
+				begin				
+					username_temp[3:0] <= BCD_input;
+					if (username_admin == username_temp)
+						next_state <= S4;
+					else
+						next_state <= S0;
+				end
+			S4:
+				if (BCD_input == 4'b1011)
+					next_state <= S6; // login as admin
+				else if (BCD_input == 4'b1101)
+					next_state <= S5; // login as simple user
+				else
+					next_state <= S0;
+			S5:
+				if (BCD_input < 4'b1010)
+					next_state <= S6; // simple user first digit password
+			S6:
+				if (BCD_input < 4'b1010)
+					next_state <= S7; // simple user second digit password
+			S7:
+				if (BCD_input < 4'b1010)
+					next_state <= S8; // simple user third digit password
+			S8:
+				if (BCD_input < 4'b1010)
+					next_state <= S1; TODO // simple user fourth digit password
+			S9:
+				if (BCD_input < 4'b1010)
+					next_state <= S10; // admin first digit password
+			S10:
+				if (BCD_input < 4'b1010)
+					next_state <= S11; // admin second digit password
+			S11:
+				if (BCD_input < 4'b1010)
+					next_state <= S12; // admin third digit password
+			S12:
+				if (BCD_input < 4'b1010)
+					next_state <= S; TODO // admin fourth digit password
+				
 		endcase	
 
 endmodule
