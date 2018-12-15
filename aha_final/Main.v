@@ -20,24 +20,41 @@
 //////////////////////////////////////////////////////////////////////////////////
 module Main();
 	
-	input start_star;
-	input [3:0] hash; //4'b1011
+	input CLK, RST;	//rising edge
+
+	input reg [3:0] BCD_input;
+	// * --> 1011 --> 11
+	// # --> 1100 --> 12
 	
-	input reg [3:0] username_1;
-	input reg [3:0] username_10;
-	input reg [3:0] username_100;
+	reg [1:0] present_state, next_state;
+		
+	parameter [5:0] S0 = 0, // ready to work and if get * will go to S1
+						 S1 = 1, // got * and now is ready to get the first digit of the username
+						 S2 = 2, // ready to get the second digit of the username
+						 S3 = 3, // ready to get the third digit of the username
+						 S4 = 4; // got the username completely and now will check wheather it 
+
+
+	always @ (posedge CLK or posedge RST)
+      if (RST)
+			present_state <= S0;
+      else 
+			present_state <= next_state; 
 	
-	input reg [3:0] password_1;
-	input reg [3:0] password_10;
-	input reg [3:0] password_100;
-	input reg [3:0] password_1000;
-	
-	parameter [5:0] S0 = 0, S1 = 1, S2 = 2, S3 = 3;
-	
-	always @ (*)
-		if (start_star) 
-			begin
-				
-			end
+	always @ (BCD_input)
+		case (present_state)
+			S0:
+				if (BCD_input == 4'b1011)
+					next_state <= S1;
+			S1:
+				if (BCD_input < 4'b1010)
+					next_state <= S2;
+			S2: 
+				if (BCD_input < 4'b1010)
+					next_state <= S3;
+			S3: 
+				if (BCD_input < 4'b1010)
+					next_state <= S4;	
+		endcase	
 
 endmodule
