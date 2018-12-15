@@ -3,16 +3,17 @@
 <simplemind-mindmaps generator="SimpleMindWin32" gen-version="1.22.0" doc-version="3">
 <mindmap>
 <meta>
-<guid guid="ECB22A8BBA704D9A98382041DFD1F35B"/>
-<title text="آماده به کار"/>
+<guid guid="88401BC45AA341679601EF7EA49209FD"/>
+<title text="آماده به کار\NS0"/>
 <style key="system.spring-levels"/>
 <auto-numbering style="disabled"/>
-<scrollstate zoom="80" x="618" y="760"/>
+<scrollstate zoom="80" x="2425" y="1148"/>
+<selection guid="123wN60500-ltk5CNkmAIQ" type="node" id="8"/>
 <main-centraltheme id="0"/>
 </meta>
 <topics>
-<topic id="0" parent="-1" guid="HkeFrD08Bke9diPx3RwgWg" x="800.00" y="800.00" text="آماده به کار"/>
-<topic id="1" parent="0" guid="ygCif4wLpke3uetWfwhTUw" x="1014.44" y="802.08" text="آماده گرفتن رقم اول یوزرنیم">
+<topic id="0" parent="-1" guid="HkeFrD08Bke9diPx3RwgWg" x="800.00" y="800.00" text="آماده به کار\NS0"/>
+<topic id="1" parent="0" guid="ygCif4wLpke3uetWfwhTUw" x="1014.44" y="802.08" text="آماده گرفتن رقم اول یوزرنیم\NS1">
 <parent-relation guid="nFWSOtQYekWmFvbxp1z94A">
 <style target-arrow="filledArrow"/>
 <children>
@@ -24,17 +25,17 @@
 </children>
 </parent-relation>
 </topic>
-<topic id="2" parent="1" guid="i-prvQCfkECdc46dOubZgw" x="1221.04" y="806.51" text="آماده گرفتن رقم دوم یوزرنیم">
+<topic id="2" parent="1" guid="i-prvQCfkECdc46dOubZgw" x="1221.04" y="806.51" text="آماده گرفتن رقم دوم یوزرنیم\NS2">
 <parent-relation guid="9y9H8KYfeUWxZzwv3DQFvw">
 <style target-arrow="filledArrow"/>
 </parent-relation>
 </topic>
-<topic id="3" parent="2" guid="doTRClQGa0WlZ5fE5l_3rw" x="1442.06" y="810.98" text="آماده گرفتن رقم سوم یوزرنیم">
+<topic id="3" parent="2" guid="doTRClQGa0WlZ5fE5l_3rw" x="1442.06" y="810.98" text="آماده گرفتن رقم سوم یوزرنیم\NS3">
 <parent-relation guid="RALGp-mJ5keX9D0tavJAYA">
 <style target-arrow="filledArrow"/>
 </parent-relation>
 </topic>
-<topic id="4" parent="3" guid="MH1-TylqBkyd7kJcIgGhQQ" x="1711.27" y="800.93" text="آماده دستور بعد از یوزرنیم">
+<topic id="4" parent="3" guid="MH1-TylqBkyd7kJcIgGhQQ" x="1711.27" y="800.93" text="آماده دستور بعد از یوزرنیم\NS4">
 <parent-relation guid="-TPsbsPAOkSiHYGXbuRZ2A">
 <style target-arrow="filledArrow"/>
 <children>
@@ -46,7 +47,7 @@
 </children>
 </parent-relation>
 </topic>
-<topic id="5" parent="4" guid="aygh9bm4eUSbf0G4aXtFyA" x="1753.65" y="1008.53" text="آماده گرفتن پسورد ادمین">
+<topic id="5" parent="4" guid="aygh9bm4eUSbf0G4aXtFyA" x="1753.65" y="1008.53" text="آماده گرفتن پسورد ادمین\NS9">
 <parent-relation guid="stIjsmSszUKo2ujiXQNHWg">
 <style target-arrow="filledArrow"/>
 <children>
@@ -58,7 +59,7 @@
 </children>
 </parent-relation>
 </topic>
-<topic id="6" parent="5" guid="0ZI8gIA_m0SiGuGUREiuaQ" x="1759.89" y="1177.44" text="آماده گرفتن رقم دوم">
+<topic id="6" parent="5" guid="0ZI8gIA_m0SiGuGUREiuaQ" x="1759.89" y="1177.44" text="آماده گرفتن رقم دوم\NS10">
 <parent-relation guid="zi-qYhsdKk2K8bg3mAiIAw">
 <style target-arrow="filledArrow"/>
 <children>
@@ -70,7 +71,7 @@
 </children>
 </parent-relation>
 </topic>
-<topic id="7" parent="6" guid="KnXHmdknLkGE5KAEjzTpDQ" x="1755.28" y="1346.78" text="آماده گرفتن رقم سوم">
+<topic id="7" parent="6" guid="KnXHmdknLkGE5KAEjzTpDQ" x="1755.28" y="1346.78" text="آماده گرفتن رقم سوم\NS11">
 <parent-relation guid="285SAeuENkGds7QvsazYPA">
 <style target-arrow="filledArrow"/>
 <children>
@@ -82,7 +83,7 @@
 </children>
 </parent-relation>
 </topic>
-<topic id="8" parent="7" guid="123wN60500-ltk5CNkmAIQ" x="1758.25" y="1554.50" text="آماده دریافت رقم چهارم">
+<topic id="8" parent="7" guid="123wN60500-ltk5CNkmAIQ" x="1758.25" y="1554.50" text="آماده دریافت رقم چهارم\NS12">
 <parent-relation guid="m9RGLp8sDkqJpqgZEybGxw">
 <style target-arrow="filledArrow"/>
 <children>
@@ -94,7 +95,7 @@
 </children>
 </parent-relation>
 </topic>
-<topic id="9" parent="4" guid="gmUfJ1Xi50m_VMEqIZTU9g" x="1930.00" y="984.38" text="آماده گرفتن پسورد کاربر">
+<topic id="9" parent="4" guid="gmUfJ1Xi50m_VMEqIZTU9g" x="1930.00" y="984.38" text="آماده گرفتن پسورد کاربر\NS5">
 <parent-relation guid="I3T7Fp6YBk2gb7rk6j_APw">
 <style target-arrow="filledArrow"/>
 <children>
@@ -106,7 +107,7 @@
 </children>
 </parent-relation>
 </topic>
-<topic id="10" parent="9" guid="dhujT7xkAk2B3bTcRqLFDg" x="1981.63" y="1161.13" text="آماده گرفتن رقم دوم">
+<topic id="10" parent="9" guid="dhujT7xkAk2B3bTcRqLFDg" x="1981.63" y="1161.13" text="آماده گرفتن رقم دوم\NS6">
 <parent-relation guid="oWuuk2x5CEKmcJnLArsMtA">
 <style target-arrow="filledArrow"/>
 <children>
@@ -118,7 +119,7 @@
 </children>
 </parent-relation>
 </topic>
-<topic id="11" parent="10" guid="27iZDOs3e0Oz291OzGPkQg" x="2011.88" y="1343.13" text="آماده گرفتن رقم سوم">
+<topic id="11" parent="10" guid="27iZDOs3e0Oz291OzGPkQg" x="2011.88" y="1343.13" text="آماده گرفتن رقم سوم\NS7">
 <parent-relation guid="IoWyoEUOXEyzJ1MIvNd_hw">
 <style target-arrow="filledArrow"/>
 <children>
@@ -130,7 +131,7 @@
 </children>
 </parent-relation>
 </topic>
-<topic id="12" parent="11" guid="PX7LqCKmB0uNog-TSWdFLw" x="2013.44" y="1491.78" text="آماده گرفتن رقم چهارم">
+<topic id="12" parent="11" guid="PX7LqCKmB0uNog-TSWdFLw" x="2013.44" y="1491.78" text="آماده گرفتن رقم چهارم\NS8">
 <parent-relation guid="ycpYxsjPEkW9s9QyFKKxPQ">
 <style target-arrow="filledArrow"/>
 <children>
@@ -417,19 +418,6 @@
 <path>
 <custom-point x="21.83" y="-151.20"/>
 </path>
-</relation>
-<relation guid="S0xE5JX8dUGh3rVkEpMSHg" source="7" target="0">
-<style target-arrow="filledArrow"/>
-<path>
-<custom-point x="-35.14" y="138.61"/>
-</path>
-<children>
-<text guid="XrQJPJhy3UK-WLSlhOzeWw" x="370.00" y="179.00">
-<note>
-غلط بودن پسورد مدیر
-</note>
-</text>
-</children>
 </relation>
 <relation guid="w9vAERFglUmNjysSrIbAjg" source="8" target="16">
 <style target-arrow="filledArrow"/>
