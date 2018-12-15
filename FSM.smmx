@@ -1,0 +1,143 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE simplemind-mindmaps>
+<simplemind-mindmaps generator="SimpleMindWin32" gen-version="1.22.0" doc-version="3">
+<mindmap>
+<meta>
+<guid guid="ECB22A8BBA704D9A98382041DFD1F35B"/>
+<title text="آماده به کار"/>
+<style key="system.spring-levels"/>
+<auto-numbering style="disabled"/>
+<scrollstate zoom="90" x="2229" y="847"/>
+<main-centraltheme id="0"/>
+</meta>
+<topics>
+<topic id="0" parent="-1" guid="HkeFrD08Bke9diPx3RwgWg" x="800.00" y="800.00" text="آماده به کار"/>
+<topic id="1" parent="0" guid="ygCif4wLpke3uetWfwhTUw" x="1014.44" y="802.08" text="آماده گرفتن رقم اول یوزرنیم">
+<parent-relation guid="nFWSOtQYekWmFvbxp1z94A">
+<style target-arrow="filledArrow"/>
+<children>
+<text guid="y8H0pVJpKUmwZ_qpDFyCAw" x="0.00" y="0.00">
+<note>
+ورودی *
+</note>
+</text>
+</children>
+</parent-relation>
+</topic>
+<topic id="2" parent="1" guid="i-prvQCfkECdc46dOubZgw" x="1221.04" y="806.51" text="آماده گرفتن رقم دوم یوزرنیم">
+<parent-relation guid="9y9H8KYfeUWxZzwv3DQFvw">
+<style target-arrow="filledArrow"/>
+</parent-relation>
+</topic>
+<topic id="3" parent="2" guid="doTRClQGa0WlZ5fE5l_3rw" x="1442.06" y="810.98" text="آماده گرفتن رقم سوم یوزرنیم">
+<parent-relation guid="RALGp-mJ5keX9D0tavJAYA">
+<style target-arrow="filledArrow"/>
+</parent-relation>
+</topic>
+<topic id="4" parent="3" guid="MH1-TylqBkyd7kJcIgGhQQ" x="1711.27" y="800.93" text="آماده دستور بعد از یوزرنیم">
+<parent-relation guid="-TPsbsPAOkSiHYGXbuRZ2A">
+<style target-arrow="filledArrow"/>
+<children>
+<text guid="kZI4J_Ngl0ex0oqMltgAOA" x="0.00" y="0.00">
+<note>
+گرفتن رقم سوم ورودیتایید وجود یوزرنیم
+</note>
+</text>
+</children>
+</parent-relation>
+</topic>
+<topic id="5" parent="4" guid="aygh9bm4eUSbf0G4aXtFyA" x="1753.65" y="1008.53" text="آماده گرفتن پسورد ادمین">
+<parent-relation guid="stIjsmSszUKo2ujiXQNHWg">
+<style target-arrow="filledArrow"/>
+<children>
+<text x="0.00" y="0.00">
+<note>
+ورودی *
+</note>
+</text>
+</children>
+</parent-relation>
+</topic>
+<topic id="6" parent="4" guid="gmUfJ1Xi50m_VMEqIZTU9g" x="1930.00" y="984.38" text="آماده گرفتن پسورد کاربر">
+<parent-relation guid="I3T7Fp6YBk2gb7rk6j_APw">
+<style target-arrow="filledArrow"/>
+<children>
+<text x="0.00" y="0.00">
+<note>
+ورودی *#
+</note>
+</text>
+</children>
+</parent-relation>
+</topic>
+<topic id="7" parent="6" guid="dhujT7xkAk2B3bTcRqLFDg" x="1990.63" y="1188.13" text="آماده گرفتن رقم دوم">
+<parent-relation guid="oWuuk2x5CEKmcJnLArsMtA">
+<style target-arrow="filledArrow"/>
+<children>
+<text x="0.00" y="0.00">
+<note>
+* رقم اول
+</note>
+</text>
+</children>
+</parent-relation>
+</topic>
+<topic id="8" parent="7" guid="27iZDOs3e0Oz291OzGPkQg" x="2011.88" y="1343.13" text="آماده گرفتن رقم سوم">
+<parent-relation guid="IoWyoEUOXEyzJ1MIvNd_hw">
+<style target-arrow="filledArrow"/>
+<children>
+<text x="0.00" y="0.00">
+<note>
+رقم دوم
+</note>
+</text>
+</children>
+</parent-relation>
+</topic>
+<topic id="9" parent="8" guid="PX7LqCKmB0uNog-TSWdFLw" x="2013.44" y="1491.78" text="آماده گرفتن رقم چهارم">
+<parent-relation guid="ycpYxsjPEkW9s9QyFKKxPQ">
+<style target-arrow="filledArrow"/>
+<children>
+<text x="0.00" y="0.00">
+<note>
+رقم سوم
+</note>
+</text>
+</children>
+</parent-relation>
+</topic>
+<topic id="10" parent="9" guid="IpPdQqUIMUuZaNAx2LDfCg" x="2005.00" y="1653.89" text="آماده دستور پایانی">
+<parent-relation guid="L3-COVsxHkmCjC6hCdooCg">
+<style target-arrow="filledArrow"/>
+<children>
+<text x="0.00" y="0.00">
+<note>
+رقم چهارم
+</note>
+</text>
+</children>
+</parent-relation>
+</topic>
+<topic id="11" parent="10" guid="5LZU51ClGE--LOLwrsHLJw" x="2041.67" y="1801.11" text="یی">
+<parent-relation guid="ndhaq1iRg0GMPNyvO27U5w">
+<style target-arrow="filledArrow"/>
+<children>
+<text x="0.00" y="0.00">
+<note>
+گرفتن *#
+</note>
+</text>
+</children>
+</parent-relation>
+</topic>
+</topics>
+<relations>
+<relation guid="6ToxM8aT3Ue4vmrNxpYgmg" source="3" target="0">
+<style target-arrow="filledArrow"/>
+<path>
+<custom-point x="-189.03" y="-240.49"/>
+</path>
+</relation>
+</relations>
+</mindmap>
+</simplemind-mindmaps>
