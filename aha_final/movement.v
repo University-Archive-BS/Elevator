@@ -25,15 +25,25 @@ module movement();
 	input reg [2:0] interior_panel; // MSB is for 3rd floor and LSB is for 1st floor
 	input reg [2:0] exterior_panel; // MSB is for 3rd floor and LSB is for 1st floor
 	
+	reg [2:0] requests; // MSB is for 3rd floor and LSB is for 1st floor
+	
 	reg [1:0] present_state, next_state, my_state;
 	
+	reg direction; // 1 for up and 0 for down
+		
 	output reg [1:0] engine; // 00 when engine is OFF
 									 // 10 when elevator is going up
-									 // 101 when elevator is going down
+									 // 11 when elevator is going down
 									 
 	output reg [2:0] doors; // MSB is for 3rd floor and LSB is for 1st floor
+									// 0 is for close and 1 is for open
 		
-	parameter [5:0] S0 = 0; // 
+	parameter [5:0] S0 = 0, // when we are in the 1st floor and the door is open
+						 S1 = 1, // when we are moving up beside the 2nd floor and the door is close
+						 S2 = 2, // when we are in the 2nd floor and the door is open
+						 S3 = 3, // when we are moving down beside the 2nd floor and the door is close
+						 S4 = 4; // when we are in the 3rd floor and the door is open
+						  
 
 	always @ (posedge CLK or negedge RST)
       if (~RST)
@@ -44,40 +54,124 @@ module movement();
 	always @ (posedge My_Clock)
 		next_state <= my_state;
       	
-	always @ (BCD_input)
+	always @ (interior_panel or exterior_panel)
+		if (interior_panel[0] == 1 || exterior_panel[0] == 1)
+			if (present_state != S0)
+				requests[0] = 1;
+		else if (interior_panel[1] == 1 || exterior_panel[1] == 1)
+			if (present_state != S2)
+				requests[1] = 1;
+		else if (interior_panel[2] == 1 || exterior_panel[2] == 1)
+			if (present_state != S4)
+				requests[2] = 1;
+				
+	always @ (present_state or requests)
 		case (present_state)
 			S0:
-				if (BCD_input == 4'b1011)
-					my_state <= S1;
-			
-			S2: 
-				if (BCD_input < 4'b1010) // get the second digit of the username
+				if (requests[0] == 1)
 				begin
-					my_state <= S3;
-					username_temp[7:4] <= BCD_input;
+					requests[0] = 0;	
+					if (requests[1] == 1 || requests[2] == 1)
+					begin
+						direction = 1;
+						my_state <= S1;
+					end
 				end
-			S3: 
-				if (BCD_input < 4'b1010) // get the third digit of the username
-				begin				
-					username_temp[3:0] <= BCD_input;
-					if (username_admin == username_temp) // here we check whether the user is valid or not
-						my_state <= S4;
-					else
-						my_state <= S0;
+				
+				else if (requests[1] == 1 || requests[2] == 1)
+				begin
+						direction = 1;
+						my_state <= S1;
 				end
-			S4:
-				if (BCD_input == 4'b1011) // get * or *#
-					my_state <= S6; // login as admin
-				else if (BCD_input == 4'b1101)
-					my_state <= S5; // login as simple user
+				
 				else
+					engine = 0;		
+				
+			S1: 
+				if (requests[1] == 1)
+				begin
+					my_state <= S2;
+					requests[1] = 0;
+				end
+				
+				else
+				begin
+					requests[2] = 0;
+					my_state <= S4;
+				end
+				
+			S2: 
+				if (requests[1] == 1)
+				begin
+					requests[1] = 0;
+					if (direction == 1)
+						if (requests[2] == 1)
+						begin
+							my_state <= S4;
+							requests[2] = 0;
+						end
+					else if (direction == 0)
+						if (requests[0] == 1)
+						begin
+							my_state <= S0;
+							requests[0] = 0;
+						end
+				end
+					
+				else
+					if (direction == 1)
+						if (requests[2] == 1)
+						begin
+							my_state <= S4;
+							requests[2] = 0;
+						end
+						
+						else
+							engine = 0;	
+							
+					else if (direction == 0)
+						if (requests[0] == 1)
+						begin
+							my_state <= S0;
+							requests[0] = 0;
+						end		
+						
+						else
+							engine = 0;
+				
+			S3:
+				if (requests[1] == 1)
+				begin
+					my_state <= S2;
+					requests[1] = 0;
+				end
+				
+				else
+				begin
+					requests[0] = 0;
 					my_state <= S0;
-			S5:
-				if (BCD_input < 4'b1010)
-					my_state <= S6; // simple user first digit password
+				end
+				
+			S4:
+				if (requests[2] == 1)
+				begin
+					requests[2] = 0;	
+					if (requests[1] == 1 || requests[0] == 1)
+					begin
+						direction = 0;
+						my_state <= S3;
+					end
+				end
+				
+				else if (requests[1] == 1 || requests[0] == 1)
+				begin
+					direction = 0;
+					my_state <= S3;
+				end
+				
+				else
+					engine = 0;
 				
 		endcase	
 	
-
-
 endmodule
