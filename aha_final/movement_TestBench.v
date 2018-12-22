@@ -38,15 +38,27 @@ module movement_testbench;
 		.doors(doors), 
 		.CLK(CLK), 
 		.RST(RST), 
+		.My_Clock(My_Clock),
 		.interior_panel(interior_panel), 
 		.exterior_panel(exterior_panel)
 	);
 
 	initial
 	begin
-		clock = 1'b0;
+		RST = 0;
+		CLK = 0;
+	#5 RST = 1;
 		repeat (30)
-		#10 clock = ~clock;
+		#5 CLK = ~CLK;
+	end
+	
+	initial
+	begin
+		interior_panel[1] = 1;
+		#15 My_Clock = 1;
+		interior_panel[1] = 0;
+		
+		
 	end
 
 endmodule

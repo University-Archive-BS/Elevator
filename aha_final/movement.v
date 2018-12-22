@@ -18,12 +18,12 @@
 // Additional Comments: 
 //
 //////////////////////////////////////////////////////////////////////////////////
-module movement(engine, doors, CLK, RST, interior_panel, exterior_panel);
+module movement(engine, doors, CLK, RST, My_Clock, interior_panel, exterior_panel);
 	
 	input CLK, RST, My_Clock;	// CLK and My_Clock are rising edge, RST is falling edge
 	
-	input reg [2:0] interior_panel; // MSB is for 3rd floor and LSB is for 1st floor
-	input reg [2:0] exterior_panel; // MSB is for 3rd floor and LSB is for 1st floor
+	input [2:0] interior_panel; // MSB is for 3rd floor and LSB is for 1st floor
+	input [2:0] exterior_panel; // MSB is for 3rd floor and LSB is for 1st floor
 	
 	reg [2:0] requests; // MSB is for 3rd floor and LSB is for 1st floor
 	
@@ -50,6 +50,9 @@ module movement(engine, doors, CLK, RST, interior_panel, exterior_panel);
 		begin
 			present_state <= S0;
 			engine = 0;	
+			doors[0] = 1;
+			doors[1] = 0;
+			doors[2] = 0;
 		end
       else 
 			present_state <= next_state;
@@ -78,6 +81,7 @@ module movement(engine, doors, CLK, RST, interior_panel, exterior_panel);
 					begin
 						direction = 1;
 						engine = 2;
+						doors[0] = 0;
 						my_state <= S1;
 					end
 				end
@@ -86,23 +90,26 @@ module movement(engine, doors, CLK, RST, interior_panel, exterior_panel);
 				begin
 						direction = 1;
 						engine = 2;
+						doors[0] = 0;
 						my_state <= S1;
 				end
 				
 				else
-					engine = 0;		
+					engine = 0;	
 				
 			S1: 
 				if (requests[1] == 1)
 				begin
 					my_state <= S2;
+					doors[1] = 1;
 					requests[1] = 0;
 				end
 				
 				else
 				begin
-					requests[2] = 0;
 					my_state <= S4;
+					doors[2] = 1;
+					requests[2] = 0;
 				end
 				
 			S2: 
@@ -112,7 +119,9 @@ module movement(engine, doors, CLK, RST, interior_panel, exterior_panel);
 					if (direction == 1)
 						if (requests[2] == 1)
 						begin
+							doors[1] = 0;
 							my_state <= S4;
+							doors[2] = 1;
 							requests[2] = 0;
 						end
 						
@@ -125,10 +134,12 @@ module movement(engine, doors, CLK, RST, interior_panel, exterior_panel);
 						else
 							engine = 0;	
 							
-					else
+					else					
 						if (requests[0] == 1)
 						begin
+							doors[1] = 0;
 							my_state <= S0;
+							doors[0] = 1;
 							requests[0] = 0;
 						end	
 
@@ -143,10 +154,13 @@ module movement(engine, doors, CLK, RST, interior_panel, exterior_panel);
 				end
 					
 				else
+					
 					if (direction == 1)
 						if (requests[2] == 1)
 						begin
+							doors[1] = 0;
 							my_state <= S4;
+							doors[2] = 1;
 							requests[2] = 0;
 						end
 						
@@ -162,7 +176,9 @@ module movement(engine, doors, CLK, RST, interior_panel, exterior_panel);
 					else
 						if (requests[0] == 1)
 						begin
+							doors[1] = 0;
 							my_state <= S0;
+							doors[0] = 1;
 							requests[0] = 0;
 						end	
 
@@ -179,13 +195,15 @@ module movement(engine, doors, CLK, RST, interior_panel, exterior_panel);
 				if (requests[1] == 1)
 				begin
 					my_state <= S2;
+					doors[1] = 1;
 					requests[1] = 0;
 				end
 				
 				else
 				begin
-					requests[0] = 0;
 					my_state <= S0;
+					doors[0] = 1;
+					requests[0] = 0;
 				end
 				
 			S4:
@@ -196,6 +214,7 @@ module movement(engine, doors, CLK, RST, interior_panel, exterior_panel);
 					begin
 						direction = 0;
 						engine = 3;
+						doors[2] = 0;
 						my_state <= S3;
 					end
 				end
@@ -204,6 +223,7 @@ module movement(engine, doors, CLK, RST, interior_panel, exterior_panel);
 				begin
 					direction = 0;
 					engine = 3;
+					doors[2] = 0;
 					my_state <= S3;
 				end
 				
