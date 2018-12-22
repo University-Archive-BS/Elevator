@@ -4,3 +4,8 @@ iseconfig/
 aha_final.gise
 aha_final.xise
 *.html
+fuse*
+isim*
+*isim*
+xilinx*
+movement_testbench_*
