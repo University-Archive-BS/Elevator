@@ -47,7 +47,10 @@ module movement(engine, doors, CLK, RST, interior_panel, exterior_panel);
 
 	always @ (posedge CLK or negedge RST)
       if (~RST)
+		begin
 			present_state <= S0;
+			engine = 0;	
+		end
       else 
 			present_state <= next_state;
 
@@ -74,6 +77,7 @@ module movement(engine, doors, CLK, RST, interior_panel, exterior_panel);
 					if (requests[1] == 1 || requests[2] == 1)
 					begin
 						direction = 1;
+						engine = 2;
 						my_state <= S1;
 					end
 				end
@@ -81,6 +85,7 @@ module movement(engine, doors, CLK, RST, interior_panel, exterior_panel);
 				else if (requests[1] == 1 || requests[2] == 1)
 				begin
 						direction = 1;
+						engine = 2;
 						my_state <= S1;
 				end
 				
@@ -110,12 +115,31 @@ module movement(engine, doors, CLK, RST, interior_panel, exterior_panel);
 							my_state <= S4;
 							requests[2] = 0;
 						end
-					else if (direction == 0)
+						
+						else if (requests[0] == 1)
+						begin 
+							direction = 0;
+							engine = 3;
+						end
+						
+						else
+							engine = 0;	
+							
+					else
 						if (requests[0] == 1)
 						begin
 							my_state <= S0;
 							requests[0] = 0;
+						end	
+
+						else if (requests[2] == 1)
+						begin 
+							direction = 1;
+							engine = 2;
 						end
+						
+						else
+							engine = 0;
 				end
 					
 				else
@@ -126,15 +150,27 @@ module movement(engine, doors, CLK, RST, interior_panel, exterior_panel);
 							requests[2] = 0;
 						end
 						
+						else if (requests[0] == 1)
+						begin 
+							direction = 0;
+							engine = 3;
+						end
+						
 						else
 							engine = 0;	
 							
-					else if (direction == 0)
+					else
 						if (requests[0] == 1)
 						begin
 							my_state <= S0;
 							requests[0] = 0;
-						end		
+						end	
+
+						else if (requests[2] == 1)
+						begin 
+							direction = 1;
+							engine = 2;
+						end
 						
 						else
 							engine = 0;
@@ -159,6 +195,7 @@ module movement(engine, doors, CLK, RST, interior_panel, exterior_panel);
 					if (requests[1] == 1 || requests[0] == 1)
 					begin
 						direction = 0;
+						engine = 3;
 						my_state <= S3;
 					end
 				end
@@ -166,6 +203,7 @@ module movement(engine, doors, CLK, RST, interior_panel, exterior_panel);
 				else if (requests[1] == 1 || requests[0] == 1)
 				begin
 					direction = 0;
+					engine = 3;
 					my_state <= S3;
 				end
 				
