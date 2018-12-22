@@ -3,9 +3,9 @@
 // Company: 
 // Engineer: 
 // 
-// Create Date:    08:41:54 12/14/2018 
+// Create Date:    17:12:13 12/22/2018 
 // Design Name: 
-// Module Name:    Main 
+// Module Name:    management 
 // Project Name: 
 // Target Devices: 
 // Tool versions: 
@@ -18,8 +18,8 @@
 // Additional Comments: 
 //
 //////////////////////////////////////////////////////////////////////////////////
-module Main();
-	
+module management();
+
 	input CLK, RST, My_Clock;	//rising edge
 
 	input reg [3:0] BCD_input;
@@ -119,5 +119,6 @@ module Main();
 					//my_state <= S; TODO // admin fourth digit password
 				
 		endcase	
+
 
 endmodule
