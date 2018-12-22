@@ -47,16 +47,19 @@ module movement_testbench;
 	begin
 		RST = 0;
 		CLK = 0;
-	#5 RST = 1;
+	#15 RST = 1;
 		repeat (30)
-		#5 CLK = ~CLK;
+		#25 CLK = ~CLK;
 	end
 	
 	initial
 	begin
-		interior_panel[1] = 1;
-		#15 My_Clock = 1;
-		interior_panel[1] = 0;
+		My_Clock = 0;
+		exterior_panel = 0;
+		interior_panel = 0;
+		#25 interior_panel = 3'b010;
+		#25 My_Clock = 1;
+		#15 interior_panel = 0;
 		
 		
 	end
