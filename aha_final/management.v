@@ -20,7 +20,7 @@
 //////////////////////////////////////////////////////////////////////////////////
 module management();
 
-	input CLK, RST, My_Clock;	//rising edge
+	input CLK, RST, My_Clock;	// CLK and My_Clock are rising edge, RST is falling edge
 
 	input reg [3:0] BCD_input;
 	// 0  to 9 BCDs are for numeric inputs digit by digit
@@ -51,8 +51,8 @@ module management();
 						 S12 = 12; // ready to get the fourth digit of the password of admin
 
 
-	always @ (posedge CLK or posedge RST)
-      if (RST)
+	always @ (posedge CLK or negedge RST)
+      if (~RST)
 			present_state <= S0;
       else 
 			present_state <= next_state;
