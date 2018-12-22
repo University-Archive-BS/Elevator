@@ -18,7 +18,7 @@
 // Additional Comments: 
 //
 //////////////////////////////////////////////////////////////////////////////////
-module movement();
+module movement(engine, doors, CLK, RST, interior_panel, exterior_panel);
 	
 	input CLK, RST, My_Clock;	// CLK and My_Clock are rising edge, RST is falling edge
 	
