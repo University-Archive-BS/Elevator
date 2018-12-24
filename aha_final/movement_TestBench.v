@@ -25,7 +25,7 @@
 module movement_testbench;
 	
 	// Inputs
-	reg CLK, RST, My_Clock;	
+	reg CLK, RST;	
 	reg [2:0] interior_panel, exterior_panel;
 				
 	// Outputs
@@ -38,7 +38,6 @@ module movement_testbench;
 		.doors(doors), 
 		.CLK(CLK), 
 		.RST(RST), 
-		.My_Clock(My_Clock),
 		.interior_panel(interior_panel), 
 		.exterior_panel(exterior_panel)
 	);
@@ -54,13 +53,12 @@ module movement_testbench;
 	
 	initial
 	begin
-		My_Clock = 0;
 		exterior_panel = 0;
 		interior_panel = 0;
-		#25 interior_panel = 3'b010;
-		#25 My_Clock = 1;
-		#15 interior_panel = 0;
-		
+		#25 interior_panel = 3'b100;
+		#10 interior_panel = 0;
+		#200 interior_panel = 3'b011;
+		#10 interior_panel = 3'b000;
 		
 	end
 
