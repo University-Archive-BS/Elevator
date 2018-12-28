@@ -25,7 +25,7 @@
 module movement_testbench;
 	
 	// Inputs
-	reg CLK, RST;	
+	reg FRQ, RST;	
 	reg [2:0] interior_panel, exterior_panel;
 				
 	// Outputs
@@ -33,22 +33,22 @@ module movement_testbench;
 	wire [2:0] doors;
 
 	// Instantiate the Unit Under Test (UUT)
-	movement uut (
-		.engine(engine), 
-		.doors(doors), 
-		.CLK(CLK), 
-		.RST(RST), 
-		.interior_panel(interior_panel), 
-		.exterior_panel(exterior_panel)
-	);
+	//movement uut (
+	//	.engine(engine), 
+	//	.doors(doors), 
+	//	.FRQ(FRQ), 
+	//	.RST(RST), 
+	//	.interior_panel(interior_panel), 
+	//	.exterior_panel(exterior_panel)
+	//);
 
 	initial
 	begin
 		RST = 0;
-		CLK = 0;
+		FRQ = 0;
 	#15 RST = 1;
 		repeat (30)
-		#25 CLK = ~CLK;
+		#25 FRQ = ~FRQ;
 	end
 	
 	initial
@@ -58,7 +58,7 @@ module movement_testbench;
 		#25 interior_panel = 3'b100;
 		#10 interior_panel = 0;
 		#200 interior_panel = 3'b011;
-		#10 interior_panel = 3'b000;
+		#10 interior_panel = 0;
 		
 	end
 

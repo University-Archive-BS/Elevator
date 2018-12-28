@@ -18,9 +18,12 @@
 // Additional Comments: 
 //
 //////////////////////////////////////////////////////////////////////////////////
-module movement(engine, doors, CLK, RST, interior_panel, exterior_panel);
+module movement(engine, doors, FRQ, RST, interior_panel, exterior_panel);
 	
-	input CLK, RST;	// CLK is rising edge, RST is falling edge
+	input RST, FRQ;	// FRQ = CLK is rising edge, RST is falling edge
+	reg CLK;
+	
+	freq_divider fd(.in_freq(FRQ), .out_freq(CLK), .reset(RST));
 	
 	input [2:0] interior_panel; // MSB is for 3rd floor and LSB is for 1st floor
 	input [2:0] exterior_panel; // MSB is for 3rd floor and LSB is for 1st floor
@@ -29,9 +32,9 @@ module movement(engine, doors, CLK, RST, interior_panel, exterior_panel);
 	
 	reg [5:0] present_state = 0, next_state = 0;
 	
-	reg direction; // 1 for up and 0 for down
+	reg direction = 1; // 1 for up and 0 for down
 		
-	output reg [1:0] engine; // 00 when engine is OFF
+	output reg [1:0] engine = 2'b00; // 00 when engine is OFF
 									 // 10 when elevator is going up
 									 // 11 when elevator is going down
 									 
@@ -45,186 +48,91 @@ module movement(engine, doors, CLK, RST, interior_panel, exterior_panel);
 						 S4 = 6'b000100; // when we are in the 3rd floor and the door is open
 						  
 
-	always @ (posedge CLK or negedge RST)
-      if (~RST)
-		begin
-			present_state <= S0;
-			engine = 0;
-			doors[0] = 1;
-			doors[1] = 0;
-			doors[2] = 0;
-		end
-		else 
+	always @ (posedge FRQ)
+		present_state <= next_state;
+      	
+	always @ (present_state or RST or interior_panel or exterior_panel or direction)
+	begin
+	
+		//input floor panels
+		if (interior_panel[0] || exterior_panel[0])
+			requests[0] = 1;
+		if (interior_panel[1] || exterior_panel[1])
+			requests[1] = 1;
+		if (interior_panel[2] || exterior_panel[2])
+			requests[2] = 1;
+			
+			
+		if (~RST)
+			next_state <= S0;		
+		else
 		begin
 			case (present_state)
-			S0:
-				if (requests[0] == 1)
-				begin
+			
+				S0:
+				begin 
+					doors = 3'b001;
 					requests[0] = 0;	
 					if (requests[1] == 1 || requests[2] == 1)
-					begin
-						direction = 1;
-						engine = 2;
-						doors[0] = 0;
 						next_state <= S1;
-					end
+					else
+						engine = 2'b00;
 				end
 				
-				else if (requests[1] == 1 || requests[2] == 1)
+				S1: 
 				begin
-						direction = 1;
-						engine = 2;
-						doors[0] = 0;
-						next_state <= S1;
+					doors = 3'b000;
+					direction = 1;
+					engine = 2'b10;
+					if (requests[1] == 1)
+						next_state <= S2;			
+					else if (requests[2] == 1)
+						next_state <= S4;
 				end
 				
-				else
-					engine = 0;	
-				
-			S1: 
-				if (requests[1] == 1)
-				begin
-					next_state <= S2;
-					doors[1] = 1;
-					requests[1] = 0;
-				end
-				
-				else if (requests[2] == 1)
-				begin
-					next_state <= S4;
-					doors[2] = 1;
-					requests[2] = 0;
-				end
-				
-			S2: 
-				if (requests[1] == 1)
-				begin
+				S2:
+				begin 
+					doors = 3'b010;
 					requests[1] = 0;
 					if (direction == 1)
 						if (requests[2] == 1)
-						begin
-							doors[1] = 0;
 							next_state <= S4;
-							doors[2] = 1;
-							requests[2] = 0;
-						end
-						
 						else if (requests[0] == 1)
-						begin 
-							direction = 0;
-							engine = 3;
-						end
-						
+							next_state <= S3;
 						else
-							engine = 0;	
-							
-					else					
-						if (requests[0] == 1)
-						begin
-							doors[1] = 0;
-							next_state <= S0;
-							doors[0] = 1;
-							requests[0] = 0;
-						end	
-
-						else if (requests[2] == 1)
-						begin 
-							direction = 1;
-							engine = 2;
-						end
-						
-						else
-							engine = 0;
-				end
-					
-				else
-					
-					if (direction == 1)
-						if (requests[2] == 1)
-						begin
-							doors[1] = 0;
-							next_state <= S4;
-							doors[2] = 1;
-							requests[2] = 0;
-						end
-						
-						else if (requests[0] == 1)
-						begin 
-							direction = 0;
-							engine = 3;
-						end
-						
-						else
-							engine = 0;	
+							engine = 2'b00;	
 							
 					else
 						if (requests[0] == 1)
-						begin
-							doors[1] = 0;
 							next_state <= S0;
-							doors[0] = 1;
-							requests[0] = 0;
-						end	
-
 						else if (requests[2] == 1)
-						begin 
-							direction = 1;
-							engine = 2;
-						end
-						
+							next_state <= S1;
 						else
-							engine = 0;
-				
-			S3:
-				if (requests[1] == 1)
-				begin
-					next_state <= S2;
-					doors[1] = 1;
-					requests[1] = 0;
+							engine = 2'b00;	
 				end
-				
-				else
+					
+				S3:
 				begin
-					next_state <= S0;
-					doors[0] = 1;
-					requests[0] = 0;
-				end
-				
-			S4:
-				if (requests[2] == 1)
-				begin
-					requests[2] = 0;	
-					if (requests[1] == 1 || requests[0] == 1)
-					begin
-						direction = 0;
-						engine = 3;
-						doors[2] = 0;
-						next_state <= S3;
-					end
-				end
-				
-				else if (requests[1] == 1 || requests[0] == 1)
-				begin
+					doors = 3'b000;
 					direction = 0;
-					engine = 3;
-					doors[2] = 0;
-					next_state <= S3;
+					engine = 2'b11;
+					if (requests[1] == 1)
+						next_state <= S2;			
+					else
+						next_state <= S0;
 				end
 				
-				else
-					engine = 0;
-				
+				S4:
+				begin
+					doors = 3'b100;
+					requests[2] = 0;
+					if (requests[1] == 1 || requests[0] == 1)
+						next_state <= S3;
+					else
+						engine = 2'b00;
+				end	
 			endcase
-			present_state <= next_state;
 		end
-      	
-	always @ (posedge interior_panel[0] or posedge exterior_panel[0])
-		requests[0] = 1;
-	
-	always @ (posedge interior_panel[1] or posedge exterior_panel[1])
-		requests[1] = 1;
+	end
 		
-	always @ (posedge interior_panel[2] or posedge exterior_panel[2])
-		requests[2] = 1;
-			
 endmodule

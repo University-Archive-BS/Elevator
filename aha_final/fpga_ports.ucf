@@ -20,4 +20,4 @@ NET "exterior_panel[2]" LOC = P172; //third floor
 
 NET "RST" LOC = P161;
 
-NET "CLK" LOC = P171;
+NET "FRQ" LOC = P184;

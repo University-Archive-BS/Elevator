@@ -16,7 +16,7 @@ architecture behavioral of freq_divider is
 begin
 	process (in_freq, reset) 
 	begin
-	   if reset = '1' then 
+	   if reset = '0' then 
             step <= '0';
             counter <= 0;	   
 	   elsif ( in_freq'event and in_freq = '1') then
