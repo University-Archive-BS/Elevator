@@ -1,23 +1,12 @@
 `timescale 1ns / 1ps
 //////////////////////////////////////////////////////////////////////////////////
-// Company: 
-// Engineer: 
-// 
+// Company: AUT-CEIT
+// Engineer: Ali Nazari
 // Create Date:    17:13:33 12/22/2018 
-// Design Name: 
 // Module Name:    movement 
-// Project Name: 
-// Target Devices: 
-// Tool versions: 
-// Description: 
-//
-// Dependencies: 
-//
-// Revision: 
-// Revision 0.01 - File Created
-// Additional Comments: 
-//
+// Project Name: Elevator
 //////////////////////////////////////////////////////////////////////////////////
+
 module movement(engine, doors, FRQ, RST, interior_panel, exterior_panel);
 	
 	input RST, FRQ;	// FRQ = CLK is rising edge, RST is falling edge
@@ -51,20 +40,20 @@ module movement(engine, doors, FRQ, RST, interior_panel, exterior_panel);
 	always @ (posedge FRQ)
 		present_state <= next_state;
       	
-	always @ (present_state or RST or interior_panel or exterior_panel or direction)
+	always @ (present_state or RST or interior_panel or exterior_panel or direction or engine or doors or next_state or requests)
 	begin
 	
-		//input floor panels
-		if (interior_panel[0] || exterior_panel[0])
-			requests[0] = 1;
-		if (interior_panel[1] || exterior_panel[1])
-			requests[1] = 1;
-		if (interior_panel[2] || exterior_panel[2])
-			requests[2] = 1;
-			
-			
 		if (~RST)
-			next_state <= S0;		
+			next_state <= S0;
+			
+		//input floor panels
+		else if (interior_panel[0] || exterior_panel[0])
+			requests[0] = 1;
+		else if (interior_panel[1] || exterior_panel[1])
+			requests[1] = 1;
+		else if (interior_panel[2] || exterior_panel[2])
+			requests[2] = 1;
+						
 		else
 		begin
 			case (present_state)

@@ -33,14 +33,14 @@ module movement_testbench;
 	wire [2:0] doors;
 
 	// Instantiate the Unit Under Test (UUT)
-	//movement uut (
-	//	.engine(engine), 
-	//	.doors(doors), 
-	//	.FRQ(FRQ), 
-	//	.RST(RST), 
-	//	.interior_panel(interior_panel), 
-	//	.exterior_panel(exterior_panel)
-	//);
+//	movement uut (
+//		.engine(engine), 
+//		.doors(doors), 
+//		.FRQ(FRQ), 
+//		.RST(RST), 
+//		.interior_panel(interior_panel), 
+//		.exterior_panel(exterior_panel)
+//	);
 
 	initial
 	begin
@@ -55,9 +55,9 @@ module movement_testbench;
 	begin
 		exterior_panel = 0;
 		interior_panel = 0;
-		#25 interior_panel = 3'b100;
+		#25 interior_panel = 3'b010;
 		#10 interior_panel = 0;
-		#200 interior_panel = 3'b011;
+		#40 interior_panel = 3'b001;
 		#10 interior_panel = 0;
 		
 	end

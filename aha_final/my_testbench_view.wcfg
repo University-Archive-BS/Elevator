@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="F:/Courses/Aha_Final_Project/aha_final/movement_testbench_isim_beh.wdb" id="1" type="auto">
+         <top_modules>
+            <top_module name="glbl" />
+            <top_module name="movement_testbench" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <WVObjectSize size="9" />
+   <wvobject fp_name="/movement_testbench/RST" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">RST</obj_property>
+      <obj_property name="ObjectShortName">RST</obj_property>
+   </wvobject>
+   <wvobject fp_name="/movement_testbench/FRQ" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">FRQ</obj_property>
+      <obj_property name="ObjectShortName">FRQ</obj_property>
+   </wvobject>
+   <wvobject fp_name="/movement_testbench/interior_panel" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">interior_panel[2:0]</obj_property>
+      <obj_property name="ObjectShortName">interior_panel[2:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/movement_testbench/exterior_panel" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">exterior_panel[2:0]</obj_property>
+      <obj_property name="ObjectShortName">exterior_panel[2:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/movement_testbench/uut/present_state" type="array" db_ref_id="1">
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="ElementShortName">present_state[5:0]</obj_property>
+      <obj_property name="ObjectShortName">present_state[5:0]</obj_property>
+      <obj_property name="label">present_state[5:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/movement_testbench/uut/next_state" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">next_state[5:0]</obj_property>
+      <obj_property name="ObjectShortName">next_state[5:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/movement_testbench/uut/requests" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">requests[2:0]</obj_property>
+      <obj_property name="ObjectShortName">requests[2:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/movement_testbench/engine" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">engine[1:0]</obj_property>
+      <obj_property name="ObjectShortName">engine[1:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/movement_testbench/doors" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">doors[2:0]</obj_property>
+      <obj_property name="ObjectShortName">doors[2:0]</obj_property>
+   </wvobject>
+</wave_config>
