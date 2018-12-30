@@ -37,17 +37,17 @@ module movement(engine, doors, FRQ, RST, interior_panel, exterior_panel);
 						 S4 = 6'b000100; // when we are in the 3rd floor and the door is open
 						  
 
-	always @ (posedge FRQ)
-		present_state <= next_state;
+	always @ (posedge CLK or negedge RST)
+		if (~RST)
+			present_state <= S0;
+		else
+			present_state <= next_state;
       	
 	always @ (present_state or RST or interior_panel or exterior_panel or direction or engine or doors or next_state or requests)
 	begin
-	
-		if (~RST)
-			next_state <= S0;
-			
+				
 		//input floor panels
-		else if (interior_panel[0] || exterior_panel[0])
+		if (interior_panel[0] || exterior_panel[0])
 			requests[0] = 1;
 		else if (interior_panel[1] || exterior_panel[1])
 			requests[1] = 1;
