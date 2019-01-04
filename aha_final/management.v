@@ -157,7 +157,7 @@ module management();
 				do_sth = 0;
 				if (is_lock == 0) // here we check whether the user is valid or not			0 is valid
 					next_state <= S5;
-				else if (is_lock == 1) 
+				else
 					next_state <= S0;
 			end
 			S5:
@@ -238,6 +238,8 @@ module management();
 				lock_rw = 0;
 				set_lock = 0;
 				username_rw = 0;
+				admin_rw = 0;
+				set_admin = 0;
 				alarm = 0;
 				password_rw = 0;
 				if (BCD_input == 4'b1011)
@@ -394,6 +396,27 @@ module management();
 				end
 			S39:
 				if (BCD_input == 4'b1110)
+				begin
+					username_rw <= username_temp_3;
+					do_sth = 1;
 					my_state <= S40; // ##
+				end
+			S40:
+			begin
+				do_sth = 0;
+				if (is_lock == 0) // check whether this username is valid or not
+					next_state <= S41;
+				else 
+				begin
+					alarm = 1;
+					next_state <= S15; // go to admin panel
+				end
+			end
+			S41:
+			begin
+				admin_rw = 1;
+				set_admin = 1;
+				do_sth = 1;
+			end
 		endcase
 endmodule
