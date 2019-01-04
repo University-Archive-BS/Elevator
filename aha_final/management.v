@@ -232,6 +232,105 @@ module management();
 					next_state <= S0;
 				end
 			end
+			S15:
+			begin
+				do_sth = 0;
+				lock_rw = 0;
+				set_lock = 0;
+				username_rw = 0;
+				alarm = 0;
+				password_rw = 0;
+				if (BCD_input == 4'b1011)
+					my_state <= S11;
+			end
+			S16:
+				if (BCD_input < 4'b1010) // get the 1st digit of the username in the admin panel
+				begin
+					my_state <= S17;
+					username_temp_2[12:9] = BCD_input;
+				end
+			S17:
+				if (BCD_input < 4'b1010) // get the 2nd digit of the username in the admin panel
+				begin
+					my_state <= S18;
+					username_temp_2[8:5] = BCD_input;
+				end
+			S18:
+				if (BCD_input < 4'b1010) // get the 3rd digit of the username in the admin panel
+				begin
+					my_state <= S19;
+					username_temp_2[4:1] = BCD_input;
+				end
+			S19:
+				if (username_temp == username_temp_2) // check the entered username in the admin panel
+					next_state <= S28;  // go to add a new admin section
+				else
+					next_state <= S20; // go to add or remove a user
+			S20:
+				if (BCD_input == 4'b1101) // *#
+				begin
+					username_rw <= username_temp_2;
+					do_sth = 1;
+					my_state <= S21;
+				end
+				else if (BCD_input == 4'b1101) // #
+				begin
+					username_rw <= username_temp_2;
+					my_state <= S23;
+				end
+				else 
+					my_state <= S0;
+			S21:
+			begin
+				do_sth = 0;
+				if (is_lock == 0)					
+					next_state <= S22;
+				else
+				begin
+					alarm = 1;
+					next_state <= S15;
+				end
+			end
+			S22:
+			begin
+				lock_rw = 1;
+				set_lock = 1;
+				do_sth = 1;
+				next_state <= S15;
+			end
+			S23:
+				if (BCD_input < 4'b1010)
+				begin
+					password_temp_2[16:13] = BCD_input;
+					my_state <= S24; // 1st digit password
+				end
+			S24:
+				if (BCD_input < 4'b1010)
+				begin
+					password_temp_2[12:9] = BCD_input;
+					my_state <= S25; // 2nd digit password
+				end
+			S25:
+				if (BCD_input < 4'b1010)
+				begin
+					password_temp_2[8:5] = BCD_input;
+					my_state <= S26; // 3rd digit password
+				end
+			S26:
+				if (BCD_input < 4'b1010)
+				begin
+					password_temp_2[4:1] = BCD_input;
+					set_password = password_temp_2;
+					my_state <= S27; // 4th digit password
+				end
+			S27:
+			begin
+				password_rw = 1;
+				lock_rw = 1;
+				set_lock = 0;
+				do_sth = 1;
+				next_state <= S15;
+			end	
 			
 		endcase
 endmodule
