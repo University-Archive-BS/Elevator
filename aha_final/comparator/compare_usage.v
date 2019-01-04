@@ -1,4 +1,5 @@
-// you can use comparator as follow, in this sample code you can change comparator width using width parameter defined in code, simply by changing this parameter your data width changes
+// you can use comparator as follow, in this sample code you can change comparator width using width parameter defined in code, 
+// simply by changing this parameter your data width changes
 
 
 
