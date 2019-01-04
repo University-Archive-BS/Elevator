@@ -331,6 +331,69 @@ module management();
 				do_sth = 1;
 				next_state <= S15;
 			end	
-			
+			S28:
+				if (BCD_input == 4'b1011)
+					my_state <= S29; // *
+			S29:
+				if (BCD_input < 4'b1010)
+				begin
+					password_temp_3[16:13] = BCD_input;
+					my_state <= S30; // 1st digit password
+				end
+			S30:
+				if (BCD_input < 4'b1010)
+				begin
+					password_temp_3[12:9] = BCD_input;
+					my_state <= S31; // 2nd digit password
+				end
+			S31:
+				if (BCD_input < 4'b1010)
+				begin
+					password_temp_3[8:5] = BCD_input;
+					my_state <= S32; // 3rd digit password
+				end
+			S32:
+				if (BCD_input < 4'b1010)
+				begin
+					password_temp_3[4:1] = BCD_input;
+					my_state <= S33; // 4th digit password
+				end
+			S33:
+				if (BCD_input == 4'b1101)
+				begin
+					my_state <= S34; // *#
+				end
+			S34:
+				if (password_temp == password_temp_3) // check whether the password is true or not
+					next_state <= S35;
+				else 
+				begin
+					alarm = 1;
+					next_state <= S15; // go to admin panel
+				end
+			S35:
+				if (BCD_input == 4'b1011)
+					my_state <= S36; // *
+			S36:
+				if (BCD_input < 4'b1010) // get the 1st digit of the username in the admin panel
+				begin
+					username_temp_3[12:9] = BCD_input;
+					my_state <= S37;
+				end
+			S37:
+				if (BCD_input < 4'b1010) // get the 2nd digit of the username in the admin panel
+				begin
+					username_temp_3[8:5] = BCD_input;
+					my_state <= S38;
+				end
+			S38:
+				if (BCD_input < 4'b1010) // get the 3rd digit of the username in the admin panel
+				begin
+					username_temp_3[4:1] = BCD_input;
+					my_state <= S39;
+				end
+			S39:
+				if (BCD_input == 4'b1110)
+					my_state <= S40; // ##
 		endcase
 endmodule
