@@ -5,11 +5,11 @@
 // Create Date:    17:12:13 12/22/2018 
 // Module Name:    management 
 //////////////////////////////////////////////////////////////////////////////////
-module management();
+module management(CLK, RST, BCD_input);
 
-	input CLK, RST, my_clock;	// CLK and My_Clock and RST are rising edge
+	input CLK, RST;	// CLK and RST are rising edge
 
-	input reg [4:1] BCD_input;
+	input [4:1] BCD_input;
 	// 0  to 9 BCDs are for numeric inputs digit by digit
 	// *  --> 1011 --> 11
 	// #  --> 1100 --> 12
@@ -17,29 +17,31 @@ module management();
 	// ## --> 1110 --> 14
 	  
 	reg [6:1]  present_state = 0, 
-				  next_state = 0, 
-				  my_state = 0;
-		
+				  next_state = 0;
+				  
 	reg is_simple_user, alarm = 0;
 	reg [12:1] username_temp, username_temp_2, username_temp_3;
 	reg [16:1] password_temp, password_temp_2, password_temp_3;
 	
+	//Admin password default is 1111
+	
 	//ram properties
-	reg 		  password_rw   = 0,
-				  admin_rw 		 = 0, 
-				  lock_rw 		 = 0, 
-				  count_rw 		 = 0, 
-				  do_sth 		 = 0,
-				  is_admin 		 = 0, 
-				  is_lock 		 = 0,
-		        set_admin     = 0,
-		        set_lock      = 0; 
-	reg [12:1] username_rw   = 0;
-	reg [16:1] set_password  = 0,
-				  get_password  = 0;		  
-	reg [4:1]  set_wrong_try = 0,
-				  wrong_try 	 = 0;
-		
+	reg password_rw = 0,
+		 admin_rw = 0, 
+		 lock_rw = 0,
+		 count_rw = 0, 
+		 do_sth = 0,
+		 set_admin = 0,
+		 set_lock = 0;
+		 
+	reg [12:1] username_rw = 0;
+	reg [16:1] set_password = 0;	  
+	reg [4:1]  set_wrong_try = 0;
+	
+	wire [16:1] get_password = 0;
+	wire [4:1]  wrong_try = 0;
+	wire is_admin = 0,
+		  is_lock = 0; 
 	
 	parameter [6:1] S0  = 6'b000000, // ready to work and if get * will go to S1
 						 S1  = 6'b000001, // got * and now is ready to get the first digit of the username
@@ -118,9 +120,6 @@ module management();
       else 
 			present_state <= next_state;
 
-	always @ (posedge my_clock)
-		next_state <= my_state;
-      	
 	always @ (BCD_input or present_state)
 		case (present_state)
 			S0:
@@ -130,18 +129,18 @@ module management();
 				set_lock = 0;
 				username_rw = 0;
 				if (BCD_input == 4'b1011)
-					my_state <= S1;
+					next_state <= S1;
 			end
 			S1:
 				if (BCD_input < 4'b1010) // get the first digit of the username
 				begin
-					my_state <= S2;
+					next_state <= S2;
 					username_temp[12:9] = BCD_input;
 				end
 			S2: 
 				if (BCD_input < 4'b1010) // get the second digit of the username
 				begin
-					my_state <= S3;
+					next_state <= S3;
 					username_temp[8:5] = BCD_input;
 				end
 			S3: 
@@ -150,7 +149,7 @@ module management();
 					username_temp[4:1] = BCD_input;
 					username_rw <= username_temp;
 					do_sth = 1;
-					my_state <= S4;
+					next_state <= S4;
 				end
 			S4:
 			begin
@@ -164,43 +163,43 @@ module management();
 				// get * or *#
 				if (BCD_input == 4'b1011) // *
 				begin
-					my_state <= S6; // login as admin
+					next_state <= S6; // login as admin
 					is_simple_user = 0;
 				end
 				else if (BCD_input == 4'b1101) // *#
 				begin
-					my_state <= S6; // login as simple user
+					next_state <= S6; // login as simple user
 					is_simple_user = 1;
 				end
 				else
-					my_state <= S0;
+					next_state <= S0;
 			S6:
 				if (BCD_input < 4'b1010)
 				begin
 					password_temp[16:13] = BCD_input;
-					my_state <= S7; // 1st digit password
+					next_state <= S7; // 1st digit password
 				end
 			S7:
 				if (BCD_input < 4'b1010)
 				begin
 					password_temp[12:9] = BCD_input;
-					my_state <= S8; // 2nd digit password
+					next_state <= S8; // 2nd digit password
 				end
 			S8:
 				if (BCD_input < 4'b1010)
 				begin
 					password_temp[8:5] = BCD_input;
-					my_state <= S9; // 3rd digit password
+					next_state <= S9; // 3rd digit password
 				end
 			S9:
 				if (BCD_input < 4'b1010)
 				begin
 					password_temp[4:1] = BCD_input;
-					my_state <= S10; // 4th digit password
+					next_state <= S10; // 4th digit password
 				end
 			S10:
 				if (BCD_input == 4'b1101)
-					my_state <= S11;
+					next_state <= S11;
 			S11:
 				if (get_password == password_temp) // check whether the password is true or not
 					if (is_simple_user == 1)
@@ -243,24 +242,24 @@ module management();
 				alarm = 0;
 				password_rw = 0;
 				if (BCD_input == 4'b1011)
-					my_state <= S11;
+					next_state <= S11;
 			end
 			S16:
 				if (BCD_input < 4'b1010) // get the 1st digit of the username in the admin panel
 				begin
-					my_state <= S17;
+					next_state <= S17;
 					username_temp_2[12:9] = BCD_input;
 				end
 			S17:
 				if (BCD_input < 4'b1010) // get the 2nd digit of the username in the admin panel
 				begin
-					my_state <= S18;
+					next_state <= S18;
 					username_temp_2[8:5] = BCD_input;
 				end
 			S18:
 				if (BCD_input < 4'b1010) // get the 3rd digit of the username in the admin panel
 				begin
-					my_state <= S19;
+					next_state <= S19;
 					username_temp_2[4:1] = BCD_input;
 				end
 			S19:
@@ -273,15 +272,15 @@ module management();
 				begin
 					username_rw <= username_temp_2;
 					do_sth = 1;
-					my_state <= S21;
+					next_state <= S21;
 				end
 				else if (BCD_input == 4'b1101) // #
 				begin
 					username_rw <= username_temp_2;
-					my_state <= S23;
+					next_state <= S23;
 				end
 				else 
-					my_state <= S0;
+					next_state <= S0;
 			S21:
 			begin
 				do_sth = 0;
@@ -304,26 +303,26 @@ module management();
 				if (BCD_input < 4'b1010)
 				begin
 					password_temp_2[16:13] = BCD_input;
-					my_state <= S24; // 1st digit password
+					next_state <= S24; // 1st digit password
 				end
 			S24:
 				if (BCD_input < 4'b1010)
 				begin
 					password_temp_2[12:9] = BCD_input;
-					my_state <= S25; // 2nd digit password
+					next_state <= S25; // 2nd digit password
 				end
 			S25:
 				if (BCD_input < 4'b1010)
 				begin
 					password_temp_2[8:5] = BCD_input;
-					my_state <= S26; // 3rd digit password
+					next_state <= S26; // 3rd digit password
 				end
 			S26:
 				if (BCD_input < 4'b1010)
 				begin
 					password_temp_2[4:1] = BCD_input;
 					set_password = password_temp_2;
-					my_state <= S27; // 4th digit password
+					next_state <= S27; // 4th digit password
 				end
 			S27:
 			begin
@@ -335,35 +334,35 @@ module management();
 			end	
 			S28:
 				if (BCD_input == 4'b1011)
-					my_state <= S29; // *
+					next_state <= S29; // *
 			S29:
 				if (BCD_input < 4'b1010)
 				begin
 					password_temp_3[16:13] = BCD_input;
-					my_state <= S30; // 1st digit password
+					next_state <= S30; // 1st digit password
 				end
 			S30:
 				if (BCD_input < 4'b1010)
 				begin
 					password_temp_3[12:9] = BCD_input;
-					my_state <= S31; // 2nd digit password
+					next_state <= S31; // 2nd digit password
 				end
 			S31:
 				if (BCD_input < 4'b1010)
 				begin
 					password_temp_3[8:5] = BCD_input;
-					my_state <= S32; // 3rd digit password
+					next_state <= S32; // 3rd digit password
 				end
 			S32:
 				if (BCD_input < 4'b1010)
 				begin
 					password_temp_3[4:1] = BCD_input;
-					my_state <= S33; // 4th digit password
+					next_state <= S33; // 4th digit password
 				end
 			S33:
 				if (BCD_input == 4'b1101)
 				begin
-					my_state <= S34; // *#
+					next_state <= S34; // *#
 				end
 			S34:
 				if (password_temp == password_temp_3) // check whether the password is true or not
@@ -375,31 +374,31 @@ module management();
 				end
 			S35:
 				if (BCD_input == 4'b1011)
-					my_state <= S36; // *
+					next_state <= S36; // *
 			S36:
 				if (BCD_input < 4'b1010) // get the 1st digit of the username in the admin panel
 				begin
 					username_temp_3[12:9] = BCD_input;
-					my_state <= S37;
+					next_state <= S37;
 				end
 			S37:
 				if (BCD_input < 4'b1010) // get the 2nd digit of the username in the admin panel
 				begin
 					username_temp_3[8:5] = BCD_input;
-					my_state <= S38;
+					next_state <= S38;
 				end
 			S38:
 				if (BCD_input < 4'b1010) // get the 3rd digit of the username in the admin panel
 				begin
 					username_temp_3[4:1] = BCD_input;
-					my_state <= S39;
+					next_state <= S39;
 				end
 			S39:
 				if (BCD_input == 4'b1110)
 				begin
 					username_rw <= username_temp_3;
 					do_sth = 1;
-					my_state <= S40; // ##
+					next_state <= S40; // ##
 				end
 			S40:
 			begin

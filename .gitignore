@@ -43,3 +43,8 @@ xlnx_auto_0_xdb/
 xst/
 movement.stx
 pictures/
+management_beh.prj
+management_testbench_beh.prj
+management_testbench_stx_beh.prj
+my_testbench_management.wcfg
+my_testbench_movement.wcfg
