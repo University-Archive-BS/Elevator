@@ -9,19 +9,19 @@ module management(CLK, RST, BCD_input);
 
 	input CLK, RST;	// CLK and RST are rising edge
 
-	input [4:1] BCD_input;
+	input [3:0] BCD_input;
 	// 0  to 9 BCDs are for numeric inputs digit by digit
 	// *  --> 1011 --> 11
 	// #  --> 1100 --> 12
 	// *# --> 1101 --> 13
 	// ## --> 1110 --> 14
 	  
-	reg [6:1]  present_state = 0, 
+	reg [5:0]  present_state = 0, 
 				  next_state = 0;
 				  
 	reg is_simple_user, alarm = 0;
-	reg [12:1] username_temp, username_temp_2, username_temp_3;
-	reg [16:1] password_temp, password_temp_2, password_temp_3;
+	reg [11:0] username_temp, username_temp_2, username_temp_3;
+	reg [15:0] password_temp, password_temp_2, password_temp_3;
 	
 	//Admin password default is 1111
 	
@@ -34,16 +34,16 @@ module management(CLK, RST, BCD_input);
 		 set_admin = 0,
 		 set_lock = 0;
 		 
-	reg [12:1] username_rw = 0;
-	reg [16:1] set_password = 0;	  
-	reg [4:1]  set_wrong_try = 0;
+	reg [11:0] username_rw = 0;
+	reg [15:0] set_password = 0;	  
+	reg [3:0]  set_wrong_try = 0;
 	
-	wire [16:1] get_password = 0;
-	wire [4:1]  wrong_try = 0;
+	wire [15:0] get_password = 0;
+	wire [3:0]  wrong_try = 0;
 	wire is_admin = 0,
 		  is_lock = 0; 
 	
-	parameter [6:1] S0  = 6'b000000, // ready to work and if get * will go to S1
+	parameter [5:0] S0  = 6'b000000, // ready to work and if get * will go to S1
 						 S1  = 6'b000001, // got * and now is ready to get the first digit of the username
 						 S2  = 6'b000010, // ready to get the second digit of the username
 						 S3  = 6'b000011, // ready to get the third digit of the username
@@ -135,31 +135,32 @@ module management(CLK, RST, BCD_input);
 				if (BCD_input < 4'b1010) // get the first digit of the username
 				begin
 					next_state <= S2;
-					username_temp[12:9] = BCD_input;
+					username_temp[11:8] = BCD_input;
 				end
 			S2: 
 				if (BCD_input < 4'b1010) // get the second digit of the username
 				begin
 					next_state <= S3;
-					username_temp[8:5] = BCD_input;
+					username_temp[7:4] = BCD_input;
 				end
 			S3: 
 				if (BCD_input < 4'b1010) // get the third digit of the username
 				begin				
-					username_temp[4:1] = BCD_input;
+					username_temp[3:0] = BCD_input;
 					username_rw <= username_temp;
-					do_sth = 1;
 					next_state <= S4;
 				end
 			S4:
 			begin
-				do_sth = 0;
+				do_sth = 1;
 				if (is_lock == 0) // here we check whether the user is valid or not			0 is valid
 					next_state <= S5;
 				else
 					next_state <= S0;
 			end
 			S5:
+			begin
+				do_sth = 0;
 				// get * or *#
 				if (BCD_input == 4'b1011) // *
 				begin
@@ -173,28 +174,29 @@ module management(CLK, RST, BCD_input);
 				end
 				else
 					next_state <= S0;
+			end
 			S6:
 				if (BCD_input < 4'b1010)
 				begin
-					password_temp[16:13] = BCD_input;
+					password_temp[15:12] = BCD_input;
 					next_state <= S7; // 1st digit password
 				end
 			S7:
 				if (BCD_input < 4'b1010)
 				begin
-					password_temp[12:9] = BCD_input;
+					password_temp[11:8] = BCD_input;
 					next_state <= S8; // 2nd digit password
 				end
 			S8:
 				if (BCD_input < 4'b1010)
 				begin
-					password_temp[8:5] = BCD_input;
+					password_temp[7:4] = BCD_input;
 					next_state <= S9; // 3rd digit password
 				end
 			S9:
 				if (BCD_input < 4'b1010)
 				begin
-					password_temp[4:1] = BCD_input;
+					password_temp[3:0] = BCD_input;
 					next_state <= S10; // 4th digit password
 				end
 			S10:
@@ -248,19 +250,19 @@ module management(CLK, RST, BCD_input);
 				if (BCD_input < 4'b1010) // get the 1st digit of the username in the admin panel
 				begin
 					next_state <= S17;
-					username_temp_2[12:9] = BCD_input;
+					username_temp_2[11:8] = BCD_input;
 				end
 			S17:
 				if (BCD_input < 4'b1010) // get the 2nd digit of the username in the admin panel
 				begin
 					next_state <= S18;
-					username_temp_2[8:5] = BCD_input;
+					username_temp_2[7:4] = BCD_input;
 				end
 			S18:
 				if (BCD_input < 4'b1010) // get the 3rd digit of the username in the admin panel
 				begin
 					next_state <= S19;
-					username_temp_2[4:1] = BCD_input;
+					username_temp_2[3:0] = BCD_input;
 				end
 			S19:
 				if (username_temp == username_temp_2) // check the entered username in the admin panel
@@ -302,25 +304,25 @@ module management(CLK, RST, BCD_input);
 			S23:
 				if (BCD_input < 4'b1010)
 				begin
-					password_temp_2[16:13] = BCD_input;
+					password_temp_2[15:12] = BCD_input;
 					next_state <= S24; // 1st digit password
 				end
 			S24:
 				if (BCD_input < 4'b1010)
 				begin
-					password_temp_2[12:9] = BCD_input;
+					password_temp_2[11:8] = BCD_input;
 					next_state <= S25; // 2nd digit password
 				end
 			S25:
 				if (BCD_input < 4'b1010)
 				begin
-					password_temp_2[8:5] = BCD_input;
+					password_temp_2[7:4] = BCD_input;
 					next_state <= S26; // 3rd digit password
 				end
 			S26:
 				if (BCD_input < 4'b1010)
 				begin
-					password_temp_2[4:1] = BCD_input;
+					password_temp_2[3:0] = BCD_input;
 					set_password = password_temp_2;
 					next_state <= S27; // 4th digit password
 				end
@@ -338,25 +340,25 @@ module management(CLK, RST, BCD_input);
 			S29:
 				if (BCD_input < 4'b1010)
 				begin
-					password_temp_3[16:13] = BCD_input;
+					password_temp_3[15:12] = BCD_input;
 					next_state <= S30; // 1st digit password
 				end
 			S30:
 				if (BCD_input < 4'b1010)
 				begin
-					password_temp_3[12:9] = BCD_input;
+					password_temp_3[11:8] = BCD_input;
 					next_state <= S31; // 2nd digit password
 				end
 			S31:
 				if (BCD_input < 4'b1010)
 				begin
-					password_temp_3[8:5] = BCD_input;
+					password_temp_3[7:4] = BCD_input;
 					next_state <= S32; // 3rd digit password
 				end
 			S32:
 				if (BCD_input < 4'b1010)
 				begin
-					password_temp_3[4:1] = BCD_input;
+					password_temp_3[3:0] = BCD_input;
 					next_state <= S33; // 4th digit password
 				end
 			S33:
@@ -378,19 +380,19 @@ module management(CLK, RST, BCD_input);
 			S36:
 				if (BCD_input < 4'b1010) // get the 1st digit of the username in the admin panel
 				begin
-					username_temp_3[12:9] = BCD_input;
+					username_temp_3[11:8] = BCD_input;
 					next_state <= S37;
 				end
 			S37:
 				if (BCD_input < 4'b1010) // get the 2nd digit of the username in the admin panel
 				begin
-					username_temp_3[8:5] = BCD_input;
+					username_temp_3[7:4] = BCD_input;
 					next_state <= S38;
 				end
 			S38:
 				if (BCD_input < 4'b1010) // get the 3rd digit of the username in the admin panel
 				begin
-					username_temp_3[4:1] = BCD_input;
+					username_temp_3[3:0] = BCD_input;
 					next_state <= S39;
 				end
 			S39:
