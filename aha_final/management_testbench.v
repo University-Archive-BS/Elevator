@@ -14,14 +14,12 @@ module management_testbench;
 	// Inputs
 	reg CLK;
 	reg RST;
-	reg my_clock;
-	reg [4:1] BCD_input;
+	reg [3:0] BCD_input;
 
 	// Instantiate the Unit Under Test (UUT)
 	management uut (
 		.CLK(CLK), 
 		.RST(RST), 
-		.my_clock(my_clock), 
 		.BCD_input(BCD_input)
 	);
 
@@ -37,19 +35,16 @@ module management_testbench;
 	
 	initial
 	begin
-		 my_clock = 0;
-		 BCD_input = 4'b0000;
-	#5	 BCD_input = 4'b1011;
-	#10 my_clock = ~my_clock;
-	#5	 BCD_input = 4'b0000;
-	#5  my_clock = ~my_clock;
-	#5  my_clock = ~my_clock;
-	#5  BCD_input = 4'b0001;
-	    BCD_input = 4'b0000;
-	#5  my_clock = ~my_clock;
-	#5  my_clock = ~my_clock;
-	#5 BCD_input = 4'b0001;
-	#5  my_clock = ~my_clock;
+		BCD_input = 4'b0000;
+	#15	 
+		BCD_input = 4'b1011;
+	#20	 
+		BCD_input = 4'b0000;
+	#20  
+		BCD_input = 4'b0001;
+		BCD_input = 4'b0000;
+	#20  
+		BCD_input = 4'b0001;
 		
 	end
       
