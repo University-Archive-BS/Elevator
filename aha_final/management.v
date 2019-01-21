@@ -40,7 +40,7 @@ module management(CLK, RST, BCD_input, logged_in);
 	
 	wire [15:0] get_password;
 	wire [3:0]  wrong_try = 0;
-	wire is_admin,
+	wire is_admin = 0,
 		  is_lock = 0; 
 		  
 	output reg logged_in = 0;
