@@ -48,3 +48,13 @@ management_testbench_beh.prj
 management_testbench_stx_beh.prj
 my_testbench_management.wcfg
 my_testbench_movement.wcfg
+elevator.cmd_log
+elevator.lso
+elevator.prj
+elevator.syr
+elevator.xst
+elevator_testbench_beh.prj
+elevator_testbench_stx_beh.prj
+elevator_xst.xrpt
+my_testbench_elevator.wcfg
+
