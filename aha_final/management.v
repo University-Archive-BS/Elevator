@@ -5,7 +5,7 @@
 // Create Date:    17:12:13 12/22/2018 
 // Module Name:    management 
 //////////////////////////////////////////////////////////////////////////////////
-module management(CLK, RST, BCD_input);
+module management(CLK, RST, BCD_input, logged_in);
 
 	input CLK, RST;	// CLK and RST are rising edge
 
@@ -43,7 +43,7 @@ module management(CLK, RST, BCD_input);
 	wire is_admin = 0,
 		  is_lock = 0; 
 		  
-	reg logged_in = 0;
+	output reg logged_in = 0;
 	
 	parameter [5:0] S0  = 6'b000000, // ready to work and if get * will go to S1
 						 S1  = 6'b000001, // got * and now is ready to get the first digit of the username

@@ -15,12 +15,16 @@ module management_testbench;
 	reg CLK;
 	reg RST;
 	reg [3:0] BCD_input;
+	
+	// Outputs
+	wire logged_in;
 
 	// Instantiate the Unit Under Test (UUT)
 	management uut (
 		.CLK(CLK), 
 		.RST(RST), 
-		.BCD_input(BCD_input)
+		.BCD_input(BCD_input),
+		.logged_in(logged_in)
 	);
 
 	initial 
