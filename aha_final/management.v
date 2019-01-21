@@ -290,7 +290,7 @@ module management(CLK, RST, BCD_input, logged_in);
 					do_sth = 1;
 					next_state <= S21;
 				end
-				else if (BCD_input == 4'b1101) // #		add
+				else if (BCD_input == 4'b1100) // #		add
 				begin
 					username_rw <= username_temp_2;
 					next_state <= S23;
