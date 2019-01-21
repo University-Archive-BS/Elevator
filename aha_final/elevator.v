@@ -16,9 +16,10 @@ module elevator(CLK, RST, BCD_management, engine, doors, interior_movement, exte
 	output [1:0] engine;
 	output [2:0] doors;
 	
-	reg logged_in = 0;
+	wire logged_in;
 	
 	management manage(CLK, RST, BCD_management, logged_in);
+	
 	movement move(engine, doors, CLK, RST, interior_movement, exterior_movement, logged_in);
 
 endmodule
