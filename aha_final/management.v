@@ -40,7 +40,7 @@ module management(CLK, RST, BCD_input, logged_in);
 	
 	wire [15:0] get_password;
 	wire [3:0]  wrong_try = 0;
-	wire is_admin = 0,
+	wire is_admin,
 		  is_lock = 0; 
 		  
 	output reg logged_in = 0;
@@ -166,8 +166,13 @@ module management(CLK, RST, BCD_input, logged_in);
 				// get * or *#
 				if (BCD_input == 4'b1011) // *
 				begin
-					next_state <= S6; // login as admin
-					is_simple_user = 0;
+					if (is_admin)
+					begin
+						is_simple_user = 0;
+						next_state <= S6; // login as admin
+					end
+					else
+						next_state <= S0;
 				end
 				else if (BCD_input == 4'b1101) // *#
 				begin
