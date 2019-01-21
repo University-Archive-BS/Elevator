@@ -71,6 +71,10 @@ module elevator_testbench;
 		BCD_management = 4'b0001;
 	#20
 		BCD_management = 4'b1101;
+	#40	
+		interior_movement = 3'b010;
+	#20
+		interior_movement = 3'b000;
 	
 	end
       
