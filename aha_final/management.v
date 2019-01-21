@@ -38,10 +38,12 @@ module management(CLK, RST, BCD_input);
 	reg [15:0] set_password = 0;	  
 	reg [3:0]  set_wrong_try = 0;
 	
-	wire [15:0] get_password = 0;
+	wire [15:0] get_password;
 	wire [3:0]  wrong_try = 0;
 	wire is_admin = 0,
 		  is_lock = 0; 
+		  
+	reg logged_in = 0;
 	
 	parameter [5:0] S0  = 6'b000000, // ready to work and if get * will go to S1
 						 S1  = 6'b000001, // got * and now is ready to get the first digit of the username
@@ -148,11 +150,11 @@ module management(CLK, RST, BCD_input);
 				begin				
 					username_temp[3:0] = BCD_input;
 					username_rw <= username_temp;
+					do_sth = 1;
 					next_state <= S4;
 				end
 			S4:
 			begin
-				do_sth = 1;
 				if (is_lock == 0) // here we check whether the user is valid or not			0 is valid
 					next_state <= S5;
 				else
@@ -197,6 +199,7 @@ module management(CLK, RST, BCD_input);
 				if (BCD_input < 4'b1010)
 				begin
 					password_temp[3:0] = BCD_input;
+					do_sth = 1;
 					next_state <= S10; // 4th digit password
 				end
 			S10:
@@ -213,9 +216,13 @@ module management(CLK, RST, BCD_input);
 				begin
 					next_state <= S13; // go to counter to check whether we should lock the user or not
 				end
+				do_sth = 0;
 			end
 			S12:
+			begin
+				logged_in = 1;
 				next_state <= S0;
+			end
 			S13:
 			begin
 				set_wrong_try = wrong_try + 1;
