@@ -39,6 +39,10 @@ module elevator_testbench;
 	
 	initial
 	begin
+	
+	/*  
+		### login and request ###
+	
 		interior_movement = 3'b000;
 		exterior_movement = 3'b000;
 		BCD_management = 4'b0000;
@@ -75,6 +79,79 @@ module elevator_testbench;
 		interior_movement = 3'b010;
 	#20
 		interior_movement = 3'b000;
+		
+	*/
+	
+	/*
+	
+		### login as an admin and add a new user ###
+	
+		interior_movement = 3'b000;
+		exterior_movement = 3'b000;
+		BCD_management = 4'b0000;
+		
+		RST = 0;
+	#5 
+		RST = 1;
+	#20	 
+		RST = 0;
+		
+	#20
+		BCD_management = 4'b1011;
+		
+	#20	 
+		BCD_management = 4'b0000;
+	#20  
+		BCD_management = 4'b0001;
+		BCD_management = 4'b0000;
+	#20  
+		BCD_management = 4'b0001;
+		
+	#20
+		BCD_management = 4'b1011;
+		
+	#40  
+		BCD_management = 4'b0001;
+	#20  
+		BCD_management = 4'b0000;
+		BCD_management = 4'b0001;
+	#20  
+		BCD_management = 4'b0000;
+		BCD_management = 4'b0001;
+	#20  
+		BCD_management = 4'b0000;
+		BCD_management = 4'b0001;
+		
+	#20
+		BCD_management = 4'b1101;	
+		
+	#40
+		BCD_management = 4'b1011;
+		
+	#20	 
+		BCD_management = 4'b0000;
+	#20  
+		BCD_management = 4'b0001;
+		BCD_management = 4'b0000;
+	#20  
+		BCD_management = 4'b0010;
+		
+	#20
+		BCD_management = 4'b1100;
+		
+	#40  
+		BCD_management = 4'b0001;
+	#20  
+		BCD_management = 4'b0000;
+		BCD_management = 4'b0001;
+	#20  
+		BCD_management = 4'b0000;
+		BCD_management = 4'b0001;
+	#20  
+		BCD_management = 4'b0000;
+		BCD_management = 4'b0001;
+		
+	*/
 	
 	end
       
