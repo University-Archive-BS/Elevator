@@ -25,10 +25,7 @@ module management_testbench;
 
 	initial 
 	begin
-		RST = 0;
 		CLK = 0;
-	#5 RST = 1;
-	#5 RST = 0;
 		repeat (100)
 	#10 CLK = ~CLK;
 	end
@@ -36,7 +33,12 @@ module management_testbench;
 	initial
 	begin
 		BCD_input = 4'b0000;
-	#15	 
+		RST = 0;
+	#5 
+		RST = 1;
+	#20	 
+		RST = 0;
+	#20
 		BCD_input = 4'b1011;
 	#20	 
 		BCD_input = 4'b0000;
@@ -45,7 +47,22 @@ module management_testbench;
 		BCD_input = 4'b0000;
 	#20  
 		BCD_input = 4'b0001;
-		
+	#20
+		BCD_input = 4'b1101;
+	#40  
+		BCD_input = 4'b0001;
+	#20  
+		BCD_input = 4'b0000;
+		BCD_input = 4'b0001;
+	#20  
+		BCD_input = 4'b0000;
+		BCD_input = 4'b0001;
+	#20  
+		BCD_input = 4'b0000;
+		BCD_input = 4'b0001;
+	#20
+		BCD_input = 4'b1101;
+	
 	end
       
 endmodule
