@@ -40,8 +40,8 @@ module management(CLK, RST, BCD_input, logged_in);
 	
 	wire [15:0] get_password;
 	wire [3:0]  wrong_try = 0;
-	wire is_admin = 0,
-		  is_lock = 0; 
+	wire is_admin,
+		  is_lock; 
 		  
 	output reg logged_in = 0;
 	
@@ -258,7 +258,7 @@ module management(CLK, RST, BCD_input, logged_in);
 				alarm = 0;
 				password_rw = 0;
 				if (BCD_input == 4'b1011)
-					next_state <= S11;
+					next_state <= S16;
 			end
 			S16:
 				if (BCD_input < 4'b1010) // get the 1st digit of the username in the admin panel
@@ -284,13 +284,13 @@ module management(CLK, RST, BCD_input, logged_in);
 				else
 					next_state <= S20; // go to add or remove a user
 			S20:
-				if (BCD_input == 4'b1101) // *#
+				if (BCD_input == 4'b1101) // *#		remove
 				begin
 					username_rw <= username_temp_2;
 					do_sth = 1;
 					next_state <= S21;
 				end
-				else if (BCD_input == 4'b1101) // #
+				else if (BCD_input == 4'b1101) // #		add
 				begin
 					username_rw <= username_temp_2;
 					next_state <= S23;
