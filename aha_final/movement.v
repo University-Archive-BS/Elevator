@@ -7,12 +7,13 @@
 // Project Name: Elevator
 //////////////////////////////////////////////////////////////////////////////////
 
-module movement(engine, doors, FRQ, RST, interior_panel, exterior_panel);
+module movement(engine, doors, CLK, RST, interior_panel, exterior_panel, logged_in);
 	
-	input RST, FRQ;	// FRQ = CLK is rising edge, RST is falling edge
-	reg CLK;
+	input CLK, RST;	// CLK and RST are rising edge
 	
-	freq_divider fd(.in_freq(FRQ), .out_freq(CLK), .reset(RST));
+//	freq_divider fd(.in_freq(FRQ), .out_freq(CLK), .reset(RST));
+
+	input logged_in;
 	
 	input [2:0] interior_panel; // MSB is for 3rd floor and LSB is for 1st floor
 	input [2:0] exterior_panel; // MSB is for 3rd floor and LSB is for 1st floor
@@ -36,13 +37,16 @@ module movement(engine, doors, FRQ, RST, interior_panel, exterior_panel);
 						 S3 = 6'b000011, // when we are moving down beside the 2nd floor and the door is close
 						 S4 = 6'b000100; // when we are in the 3rd floor and the door is open
 						  
-
-	always @ (posedge CLK or negedge RST)
-		if (~RST)
+		
+	always @ (posedge CLK or posedge RST)
+		if (RST)
 			present_state <= S0;
 		else
-			present_state <= next_state;
-      	
+		begin
+			if (logged_in)
+				present_state <= next_state;
+		end
+			
 	always @ (present_state or RST or interior_panel or exterior_panel or direction or engine or doors or next_state or requests)
 	begin
 				
@@ -123,5 +127,5 @@ module movement(engine, doors, FRQ, RST, interior_panel, exterior_panel);
 			endcase
 		end
 	end
-		
+
 endmodule

@@ -34,10 +34,10 @@ module movement_testbench;
 	initial
 	begin
 		RST = 0;
-		FRQ = 0;
+		CLK = 0;
 	#15 RST = 1;
 		repeat (100)
-		#25 FRQ = ~FRQ;
+		#25 CLK = ~CLK;
 	end
 	
 	initial
