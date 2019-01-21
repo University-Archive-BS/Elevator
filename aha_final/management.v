@@ -19,9 +19,9 @@ module management(CLK, RST, BCD_input);
 	reg [5:0]  present_state = 0, 
 				  next_state = 0;
 				  
-	reg is_simple_user, alarm = 0;
-	reg [11:0] username_temp, username_temp_2, username_temp_3;
-	reg [15:0] password_temp, password_temp_2, password_temp_3;
+	reg is_simple_user = 0, alarm = 0;
+	reg [11:0] username_temp = 0, username_temp_2 = 0, username_temp_3 = 0;
+	reg [15:0] password_temp = 0, password_temp_2 = 0, password_temp_3 = 0;
 	
 	//Admin password default is 1111
 	
@@ -203,6 +203,7 @@ module management(CLK, RST, BCD_input);
 				if (BCD_input == 4'b1101)
 					next_state <= S11;
 			S11:
+			begin
 				if (get_password == password_temp) // check whether the password is true or not
 					if (is_simple_user == 1)
 						next_state <= S12; // go to user panel
@@ -212,6 +213,7 @@ module management(CLK, RST, BCD_input);
 				begin
 					next_state <= S13; // go to counter to check whether we should lock the user or not
 				end
+			end
 			S12:
 				next_state <= S0;
 			S13:
@@ -230,8 +232,8 @@ module management(CLK, RST, BCD_input);
 					lock_rw = 1;
 					set_lock = 1;
 					do_sth = 1;
-					next_state <= S0;
 				end
+				next_state <= S0;
 			end
 			S15:
 			begin
