@@ -257,6 +257,7 @@ module management(CLK, RST, BCD_input, logged_in);
 				set_admin = 0;
 				alarm = 0;
 				password_rw = 0;
+				username_temp_2 = 0;
 				if (BCD_input == 4'b1011)
 					next_state <= S16;
 			end
@@ -432,6 +433,7 @@ module management(CLK, RST, BCD_input, logged_in);
 				admin_rw = 1;
 				set_admin = 1;
 				do_sth = 1;
+				next_state <= S0;
 			end
 		endcase
 endmodule
